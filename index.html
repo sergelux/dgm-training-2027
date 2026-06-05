@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DGM Network - Training Request 2027</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#F0F2F8;color:#263238;font-size:16px}
+header{background:#39B54A;padding:16px 24px;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+header h1{color:#fff;font-size:20px;font-weight:800}
+header p{color:rgba(255,255,255,0.85);font-size:11px;letter-spacing:.1em;margin-top:2px}
+.wrap{max-width:820px;margin:0 auto;padding:24px 16px}
+h2{font-size:26px;font-weight:800;color:#1A237E;margin-bottom:6px}
+.bar{width:48px;height:4px;background:#C62828;border-radius:2px;margin-bottom:20px}
+.toggle{display:flex;border:2px solid #C5CAE9;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.toggle button{flex:1;padding:12px 16px;font-size:14px;font-weight:700;border:none;cursor:pointer;background:#F5F6FF;color:#5C6BC0;font-family:Arial,sans-serif}
+.toggle button.active{background:#1A237E;color:#fff}
+.hint{color:#546E7A;font-size:13px;margin-bottom:20px;line-height:1.5}
+.card{background:#fff;border:1.5px solid #E0E0E0;border-radius:12px;padding:18px;margin-bottom:16px}
+.card h3{font-size:15px;color:#1A237E;margin-bottom:14px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:11px;font-weight:700;color:#546E7A;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+select,input,textarea{width:100%;padding:10px 12px;border-radius:7px;border:2px solid #CFD8DC;font-size:14px;color:#263238;background:#fff;font-family:Arial,sans-serif}
+.req{color:#C62828}
+.err{color:#C62828;font-size:12px;margin-top:4px;display:none}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.cbtn{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid #E0E0E0;background:#F5F5F5;color:#9E9E9E;font-family:Arial,sans-serif}
+.cbtn.on{border-color:#1A237E;background:#E8EAF6;color:#1A237E}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tcard{border:2px solid #E0E0E0;border-radius:10px;padding:10px 12px;cursor:pointer;background:#FAFAFA}
+.tcard.sel{border-color:#1A237E;background:#E8EAF6}
+.tcard.hidden{display:none}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.tcode{font-size:12px;font-weight:700;color:#1A237E;line-height:1.3}
+.badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.selcount{font-size:12px;font-weight:400;color:#90A4AE;margin-left:8px}
+.submitbtn{background:#1A237E;color:#fff;border:none;border-radius:8px;padding:14px 40px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;font-family:Arial,sans-serif;width:100%}
+#success{display:none;text-align:center;padding:40px 20px}
+#success .big{font-size:56px;margin-bottom:16px}
+#success h2{color:#1A237E;margin-bottom:12px}
+#success p{color:#546E7A;max-width:420px;margin:0 auto 20px;line-height:1.6}
+.sumbox{background:#E8EAF6;border:1px solid #C5CAE9;border-radius:10px;padding:16px;text-align:left;max-width:500px;margin:0 auto}
+.sumbox h4{color:#1A237E;font-size:13px;margin-bottom:10px}
+.sumbox p{font-size:13px;color:#37474F;margin-bottom:6px;line-height:1.5}
+.pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.pill{background:#fff;border:1px solid #C5CAE9;border-radius:4px;padding:2px 8px;font-size:11px;color:#3949AB;font-weight:600}
+.btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.ebtn{background:#1A237E;color:#fff;border:none;border-radius:7px;padding:12px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif}
+.ebtn.red{background:#C62828}
+.again{background:transparent;color:#1A237E;border:2px solid #1A237E;border-radius:7px;padding:10px 22px;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px;font-family:Arial,sans-serif}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}.tgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>DGM Network</h1>
+  <p>TRAINING REQUEST PORTAL 2027</p>
+</header>
+<div class="wrap">
+  <h2>Request a Training</h2>
+  <div class="bar"></div>
+  <div id="formview">
+    <div class="toggle">
+      <button class="active" id="btn-need" onclick="setType('need')">We Need Training</button>
+      <button id="btn-offer" onclick="setType('offer')">We Can Offer Training</button>
+    </div>
+    <p class="hint" id="hint">Select the trainings your office needs.</p>
+    <div class="card">
+      <h3>Office Information</h3>
+      <div class="grid2">
+        <div>
+          <label>Office <span class="req">*</span></label>
+          <select id="f-office">
+            <option value="">Select your office...</option>
+            <optgroup label="Europe">
+              <option>Denmark - Copenhagen</option>
+              <option>Denmark - Billund</option>
+              <option>France - Paris</option>
+              <option>Germany - Berlin</option>
+              <option>Germany - Frankfurt</option>
+              <option>Germany - Hamburg</option>
+              <option>Italy - Milan</option>
+              <option>Italy - Malpensa</option>
+              <option>Lithuania - Vilnius</option>
+              <option>Luxembourg - Findel Airport</option>
+              <option>Netherlands - Hoofddorp</option>
+              <option>Norway - Bergen</option>
+              <option>Norway - Trondheim</option>
+              <option>Norway - Oslo</option>
+              <option>Norway - Stavanger</option>
+              <option>Poland - Warsaw</option>
+              <option>Poland - Wroclaw</option>
+              <option>Poland - Katowice</option>
+              <option>Poland - Szczecin</option>
+              <option>Poland - Puck</option>
+              <option>Poland - Bialystok</option>
+              <option>Portugal - Lisboa</option>
+              <option>Portugal - Oporto</option>
+              <option>Spain - Madrid</option>
+              <option>Spain - Barcelona</option>
+              <option>Sweden - Stockholm</option>
+              <option>Sweden - Gothenburg</option>
+              <option>Sweden - Karlstad</option>
+              <option>Sweden - Malmo</option>
+              <option>Sweden - Arvika</option>
+              <option>United Kingdom - Aberdeen</option>
+              <option>United Kingdom - London</option>
+            </optgroup>
+            <optgroup label="Caspian">
+              <option>Azerbaijan - Baku</option>
+            </optgroup>
+          </select>
+          <div class="err" id="e-office">Please select your office</div>
+        </div>
+        <div>
+          <label>Contact Name <span class="req">*</span></label>
+          <input type="text" id="f-contact" placeholder="Your full name"/>
+          <div class="err" id="e-contact">Please enter your name</div>
+        </div>
+        <div id="pax-row">
+          <label>Participants <span class="req">*</span></label>
+          <input type="number" id="f-pax" min="1" placeholder="e.g. 8"/>
+          <div class="err" id="e-pax">Please enter a valid number</div>
+        </div>
+        <div>
+          <label id="qlabel">Preferred Quarter 2027</label>
+          <select id="f-quarter">
+            <option value="">Select a quarter...</option>
+            <option value="Q1 2027">Q1 - January / February / March</option>
+            <option value="Q2 2027">Q2 - April / May / June</option>
+            <option value="Q3 2027">Q3 - July / August / September</option>
+            <option value="Q4 2027">Q4 - October / November / December</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Select Trainings <span class="selcount" id="selcount"></span></h3>
+      <div class="filters">
+        <button class="cbtn on" onclick="filterCat('All',this)">All</button>
+        <button class="cbtn" style="background:#FFEBEE;color:#B71C1C;border-color:#EF9A9A" onclick="filterCat('Safety',this)">Safety</button>
+        <button class="cbtn" style="background:#E8F4FD;color:#1565C0;border-color:#90CAF9" onclick="filterCat('Air',this)">Air</button>
+        <button class="cbtn" style="background:#E8F5E9;color:#2E7D32;border-color:#A5D6A7" onclick="filterCat('Sea',this)">Sea</button>
+        <button class="cbtn" style="background:#FFF3E0;color:#E65100;border-color:#FFCC80" onclick="filterCat('Road',this)">Road</button>
+        <button class="cbtn" style="background:#F3E5F5;color:#6A1B9A;border-color:#CE93D8" onclick="filterCat('All modes',this)">All modes</button>
+        <button class="cbtn" style="background:#FFF8E1;color:#E65100;border-color:#FFE082" onclick="filterCat('Compliance',this)">Compliance</button>
+        <button class="cbtn" style="background:#E0F7FA;color:#00695C;border-color:#80DEEA" onclick="filterCat('Logistics',this)">Logistics</button>
+        <button class="cbtn" style="background:#F9FBE7;color:#558B2F;border-color:#C5E1A5" onclick="filterCat('Development',this)">Development</button>
+      </div>
+      <div class="err" id="e-train" style="margin-bottom:10px">Please select at least one training</div>
+      <div class="tgrid">
+        <div class="tcard" data-cat="Safety" onclick="toggleCard(this,'emergency_response')"><div class="ctop"><span class="tcode" id="code-emergency_response">Emergency Response</span><span class="badge" style="background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A">Safety</span></div></div>
+        <div class="tcard" data-cat="Safety" onclick="toggleCard(this,'emergency_drills')"><div class="ctop"><span class="tcode" id="code-emergency_drills">Emergency Drills</span><span class="badge" style="background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A">Safety</span></div></div>
+        <div class="tcard" data-cat="Safety" onclick="toggleCard(this,'first_aid')"><div class="ctop"><span class="tcode" id="code-first_aid">First Aid</span><span class="badge" style="background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A">Safety</span></div></div>
+        <div class="tcard" data-cat="Safety" onclick="toggleCard(this,'health_safety')"><div class="ctop"><span class="tcode" id="code-health_safety">Health and Safety</span><span class="badge" style="background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A">Safety</span></div></div>
+        <div class="tcard" data-cat="Safety" onclick="toggleCard(this,'fire_protection')"><div class="ctop"><span class="tcode" id="code-fire_protection">Fire Protection</span><span class="badge" style="background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A">Safety</span></div></div>
+        <div class="tcard" data-cat="Safety" onclick="toggleCard(this,'oil_platform')"><div class="ctop"><span class="tcode" id="code-oil_platform">Oil Platform HELI Escape</span><span class="badge" style="background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A">Safety</span></div></div>
+        <div class="tcard" data-cat="Air" onclick="toggleCard(this,'iata_cbta')"><div class="ctop"><span class="tcode" id="code-iata_cbta">IATA CBTA Trainer</span><span class="badge" style="background:#E8F4FD;color:#1565C0;border:1px solid #90CAF9">Air</span></div></div>
+        <div class="tcard" data-cat="Air" onclick="toggleCard(this,'load_ac')"><div class="ctop"><span class="tcode" id="code-load_ac">Load Securing Aircraft</span><span class="badge" style="background:#E8F4FD;color:#1565C0;border:1px solid #90CAF9">Air</span></div></div>
+        <div class="tcard" data-cat="Air" onclick="toggleCard(this,'known_shipper')"><div class="ctop"><span class="tcode" id="code-known_shipper">Known Shipper</span><span class="badge" style="background:#E8F4FD;color:#1565C0;border:1px solid #90CAF9">Air</span></div></div>
+        <div class="tcard" data-cat="Air" onclick="toggleCard(this,'dry_ice')"><div class="ctop"><span class="tcode" id="code-dry_ice">Dry Ice</span><span class="badge" style="background:#E8F4FD;color:#1565C0;border:1px solid #90CAF9">Air</span></div></div>
+        <div class="tcard" data-cat="Sea" onclick="toggleCard(this,'imdg')"><div class="ctop"><span class="tcode" id="code-imdg">IMDG</span><span class="badge" style="background:#E8F5E9;color:#2E7D32;border:1px solid #A5D6A7">Sea</span></div></div>
+        <div class="tcard" data-cat="Sea" onclick="toggleCard(this,'imdg_trainer')"><div class="ctop"><span class="tcode" id="code-imdg_trainer">IMDG Train the Trainer</span><span class="badge" style="background:#E8F5E9;color:#2E7D32;border:1px solid #A5D6A7">Sea</span></div></div>
+        <div class="tcard" data-cat="Sea" onclick="toggleCard(this,'ems_codes')"><div class="ctop"><span class="tcode" id="code-ems_codes">EMS Codes</span><span class="badge" style="background:#E8F5E9;color:#2E7D32;border:1px solid #A5D6A7">Sea</span></div></div>
+        <div class="tcard" data-cat="Road" onclick="toggleCard(this,'load_truck')"><div class="ctop"><span class="tcode" id="code-load_truck">Load Securing Truck</span><span class="badge" style="background:#FFF3E0;color:#E65100;border:1px solid #FFCC80">Road</span></div></div>
+        <div class="tcard" data-cat="Road" onclick="toggleCard(this,'truck_controls')"><div class="ctop"><span class="tcode" id="code-truck_controls">Truck Controls</span><span class="badge" style="background:#FFF3E0;color:#E65100;border:1px solid #FFCC80">Road</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'ctu')"><div class="ctop"><span class="tcode" id="code-ctu">CTU Container Loading</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'gas_bottles')"><div class="ctop"><span class="tcode" id="code-gas_bottles">Gas Bottles</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'un_packages')"><div class="ctop"><span class="tcode" id="code-un_packages">UN Packages and Certificates</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'lithium')"><div class="ctop"><span class="tcode" id="code-lithium">Lithium Batteries</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'explosives')"><div class="ctop"><span class="tcode" id="code-explosives">Explosives</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'infectious')"><div class="ctop"><span class="tcode" id="code-infectious">Infectious Substances</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'radioactive')"><div class="ctop"><span class="tcode" id="code-radioactive">Radio Protection</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'dgsa_radio')"><div class="ctop"><span class="tcode" id="code-dgsa_radio">DGSA Radioactive Material</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'dgsa')"><div class="ctop"><span class="tcode" id="code-dgsa">DG Safety Adviser</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'waste_mgmt')"><div class="ctop"><span class="tcode" id="code-waste_mgmt">Waste Management</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'haz_ghs')"><div class="ctop"><span class="tcode" id="code-haz_ghs">Hazardous Goods GHS</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'sds')"><div class="ctop"><span class="tcode" id="code-sds">SDS</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'storage_haz')"><div class="ctop"><span class="tcode" id="code-storage_haz">Storage of Hazardous Goods</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'destroy_goods')"><div class="ctop"><span class="tcode" id="code-destroy_goods">Destroy of Goods</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="All modes" onclick="toggleCard(this,'new_staff_dg')"><div class="ctop"><span class="tcode" id="code-new_staff_dg">New Staff Operations DG</span><span class="badge" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8">All modes</span></div></div>
+        <div class="tcard" data-cat="Compliance" onclick="toggleCard(this,'seveso')"><div class="ctop"><span class="tcode" id="code-seveso">Seveso</span><span class="badge" style="background:#FFF8E1;color:#E65100;border:1px solid #FFE082">Compliance</span></div></div>
+        <div class="tcard" data-cat="Compliance" onclick="toggleCard(this,'security')"><div class="ctop"><span class="tcode" id="code-security">Security</span><span class="badge" style="background:#FFF8E1;color:#E65100;border:1px solid #FFE082">Compliance</span></div></div>
+        <div class="tcard" data-cat="Compliance" onclick="toggleCard(this,'audits')"><div class="ctop"><span class="tcode" id="code-audits">Audits</span><span class="badge" style="background:#FFF8E1;color:#E65100;border:1px solid #FFE082">Compliance</span></div></div>
+        <div class="tcard" data-cat="Compliance" onclick="toggleCard(this,'ims')"><div class="ctop"><span class="tcode" id="code-ims">IMS</span><span class="badge" style="background:#FFF8E1;color:#E65100;border:1px solid #FFE082">Compliance</span></div></div>
+        <div class="tcard" data-cat="Logistics" onclick="toggleCard(this,'cargo_basics')"><div class="ctop"><span class="tcode" id="code-cargo_basics">Cargo Basics</span><span class="badge" style="background:#E0F7FA;color:#00695C;border:1px solid #80DEEA">Logistics</span></div></div>
+        <div class="tcard" data-cat="Logistics" onclick="toggleCard(this,'live_animal')"><div class="ctop"><span class="tcode" id="code-live_animal">Live Animal</span><span class="badge" style="background:#E0F7FA;color:#00695C;border:1px solid #80DEEA">Logistics</span></div></div>
+        <div class="tcard" data-cat="Logistics" onclick="toggleCard(this,'pharma')"><div class="ctop"><span class="tcode" id="code-pharma">Pharma</span><span class="badge" style="background:#E0F7FA;color:#00695C;border:1px solid #80DEEA">Logistics</span></div></div>
+        <div class="tcard" data-cat="Logistics" onclick="toggleCard(this,'crating')"><div class="ctop"><span class="tcode" id="code-crating">Crating</span><span class="badge" style="background:#E0F7FA;color:#00695C;border:1px solid #80DEEA">Logistics</span></div></div>
+        <div class="tcard" data-cat="Logistics" onclick="toggleCard(this,'warehouse')"><div class="ctop"><span class="tcode" id="code-warehouse">Warehouse</span><span class="badge" style="background:#E0F7FA;color:#00695C;border:1px solid #80DEEA">Logistics</span></div></div>
+        <div class="tcard" data-cat="Logistics" onclick="toggleCard(this,'dgoffice')"><div class="ctop"><span class="tcode" id="code-dgoffice">DGOffice</span><span class="badge" style="background:#E0F7FA;color:#00695C;border:1px solid #80DEEA">Logistics</span></div></div>
+        <div class="tcard" data-cat="Logistics" onclick="toggleCard(this,'sop')"><div class="ctop"><span class="tcode" id="code-sop">SOP</span><span class="badge" style="background:#E0F7FA;color:#00695C;border:1px solid #80DEEA">Logistics</span></div></div>
+        <div class="tcard" data-cat="Development" onclick="toggleCard(this,'train_trainer')"><div class="ctop"><span class="tcode" id="code-train_trainer">Train the Trainer</span><span class="badge" style="background:#F9FBE7;color:#558B2F;border:1px solid #C5E1A5">Development</span></div></div>
+        <div class="tcard" data-cat="Development" onclick="toggleCard(this,'leadership_hr')"><div class="ctop"><span class="tcode" id="code-leadership_hr">Leadership HR</span><span class="badge" style="background:#F9FBE7;color:#558B2F;border:1px solid #C5E1A5">Development</span></div></div>
+        <div class="tcard" data-cat="Development" onclick="toggleCard(this,'sales_skills')"><div class="ctop"><span class="tcode" id="code-sales_skills">Sales Skills</span><span class="badge" style="background:#F9FBE7;color:#558B2F;border:1px solid #C5E1A5">Development</span></div></div>
+        <div class="tcard" data-cat="Development" onclick="toggleCard(this,'presentation_skills')"><div class="ctop"><span class="tcode" id="code-presentation_skills">Presentation Skills</span><span class="badge" style="background:#F9FBE7;color:#558B2F;border:1px solid #C5E1A5">Development</span></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Additional Notes</h3>
+      <textarea id="f-custom" rows="3" placeholder="Any specific requirements, languages, certifications..."></textarea>
+    </div>
+    <button class="submitbtn" onclick="doSubmit()">Submit Training Request</button>
+  </div>
+  <div id="success">
+    <div class="big">&#9989;</div>
+    <h2>Request Submitted!</h2>
+    <p>Thank you. Use the button below to email your request to DGM Luxembourg.</p>
+    <div class="sumbox" id="sumbox"></div>
+    <div class="btnrow">
+      <button class="ebtn" onclick="doCopy()">Copy Summary</button>
+      <button class="ebtn red" onclick="doEmail()">Send to DGM Luxembourg</button>
+    </div>
+    <br/>
+    <button class="again" onclick="doReset()">Submit Another</button>
+  </div>
+</div>
+<script>
+var sel=[];var rtype="need";
+function setType(t){rtype=t;document.getElementById("btn-need").className=t==="need"?"active":"";document.getElementById("btn-offer").className=t==="offer"?"active":"";document.getElementById("hint").textContent=t==="need"?"Select the trainings your office needs.":"Select the trainings your office can deliver.";document.getElementById("pax-row").style.display=t==="offer"?"none":"";document.getElementById("qlabel").textContent=t==="need"?"Preferred Quarter 2027":"Available Quarter 2027";document.querySelector(".submitbtn").textContent=t==="need"?"Submit Training Request":"Submit Training Offer";}
+function filterCat(cat,btn){var btns=document.querySelectorAll(".cbtn");for(var i=0;i<btns.length;i++){btns[i].classList.remove("on");}btn.classList.add("on");var cards=document.querySelectorAll(".tcard");for(var j=0;j<cards.length;j++){if(cat==="All"||cards[j].getAttribute("data-cat")===cat){cards[j].classList.remove("hidden");}else{cards[j].classList.add("hidden");}}}
+function toggleCard(el,id){var idx=sel.indexOf(id);if(idx>=0){sel.splice(idx,1);el.classList.remove("sel");}else{sel.push(id);el.classList.add("sel");}document.getElementById("selcount").textContent=sel.length>0?sel.length+" selected":"";}
+function doSubmit(){var office=document.getElementById("f-office").value;var contact=document.getElementById("f-contact").value.trim();var pax=document.getElementById("f-pax").value;var quarter=document.getElementById("f-quarter").value;var custom=document.getElementById("f-custom").value.trim();var ok=true;document.getElementById("e-office").style.display="none";document.getElementById("e-contact").style.display="none";document.getElementById("e-pax").style.display="none";document.getElementById("e-train").style.display="none";if(!office){document.getElementById("e-office").style.display="block";ok=false;}if(!contact){document.getElementById("e-contact").style.display="block";ok=false;}if(rtype==="need"&&(!pax||parseInt(pax)<1)){document.getElementById("e-pax").style.display="block";ok=false;}if(sel.length===0&&!custom){document.getElementById("e-train").style.display="block";ok=false;}if(!ok)return;var codes=[];for(var i=0;i<sel.length;i++){var el=document.getElementById("code-"+sel[i]);if(el)codes.push(el.textContent);}var sumHTML="<h4>SUBMISSION SUMMARY</h4>";sumHTML+="<p><strong>Type:</strong> "+(rtype==="need"?"Training Needed":"Training Offered")+"</p>";sumHTML+="<p><strong>Office:</strong> "+office+"</p>";sumHTML+="<p><strong>Contact:</strong> "+contact+"</p>";if(rtype==="need"&&pax)sumHTML+="<p><strong>Participants:</strong> "+pax+"</p>";if(quarter)sumHTML+="<p><strong>Quarter:</strong> "+quarter+"</p>";if(codes.length>0){sumHTML+="<p><strong>Trainings:</strong></p><div class='pills'>";for(var j=0;j<codes.length;j++)sumHTML+="<span class='pill'>"+codes[j]+"</span>";sumHTML+="</div>";}if(custom)sumHTML+="<p style='margin-top:8px'><strong>Notes:</strong> "+custom+"</p>";document.getElementById("sumbox").innerHTML=sumHTML;var txt="DGM TRAINING "+(rtype==="need"?"REQUEST":"OFFER")+" 2027\n";txt+="Office: "+office+"\n";txt+="Contact: "+contact+"\n";if(rtype==="need"&&pax)txt+="Participants: "+pax+"\n";if(quarter)txt+="Quarter: "+quarter+"\n";if(codes.length>0)txt+="Trainings: "+codes.join(", ")+"\n";if(custom)txt+="Notes: "+custom+"\n";window._txt=txt;document.getElementById("formview").style.display="none";document.getElementById("success").style.display="block";window.scrollTo(0,0);}
+function doCopy(){var ta=document.createElement("textarea");ta.value=window._txt||"";ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");document.body.removeChild(ta);var b=document.querySelectorAll(".ebtn")[0];b.textContent="Copied!";setTimeout(function(){b.textContent="Copy Summary";},2000);}
+function doEmail(){var s=encodeURIComponent("DGM Training Request 2027");var b=encodeURIComponent(window._txt||"");window.location.href="mailto:s.soucek@dgm.world?subject="+s+"&body="+b;}
+function doReset(){sel=[];rtype="need";document.getElementById("f-office").value="";document.getElementById("f-contact").value="";document.getElementById("f-pax").value="";document.getElementById("f-quarter").value="";document.getElementById("f-custom").value="";document.getElementById("selcount").textContent="";var cards=document.querySelectorAll(".tcard");for(var i=0;i<cards.length;i++){cards[i].classList.remove("sel","hidden");}var btns=document.querySelectorAll(".cbtn");for(var i=0;i<btns.length;i++){btns[i].classList.remove("on");}document.querySelectorAll(".cbtn")[0].classList.add("on");setType("need");document.getElementById("success").style.display="none";document.getElementById("formview").style.display="block";window.scrollTo(0,0);}
+</script>
+</body>
+</html>
